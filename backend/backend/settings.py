@@ -69,8 +69,8 @@ ASGI_APPLICATION = "backend.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bbb',
-        'USER': 'marketad',
+        'NAME': 'marketad',
+        'USER': 'bbb',
         'PASSWORD': 'baguvix123F',
         'HOST': 'localhost',
         'PORT': '',
