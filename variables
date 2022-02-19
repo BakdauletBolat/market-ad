@@ -1,0 +1,10 @@
+CREATE DATABASE marketad;
+CREATE USER bbb WITH PASSWORD 'baguvix123F';
+
+
+ALTER ROLE bbb SET client_encoding TO 'utf8';
+ALTER ROLE bbb SET default_transaction_isolation TO 'read committed';
+ALTER ROLE bbb SET timezone TO 'UTC';
+
+GRANT ALL PRIVILEGES ON DATABASE marketad TO bbb;
+
