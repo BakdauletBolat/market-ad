@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class User {
 
-    url = 'http://127.0.0.1:8001';
+    url = 'http://127.0.0.1:8000';
 
     async login(body) {
        return await axios.post(`${this.url}/api/auth/token/`,body)

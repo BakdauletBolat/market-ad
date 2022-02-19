@@ -14,8 +14,11 @@ class ListCreateAdvertising(generics.ListCreateAPIView):
     serializer_class = AdvertisingSerializer
 
     def list(self, request):
-        queryset = self.get_queryset().filter(user=request.user)
-        serializer = self.serializer_class(queryset, many=True)
+        queryset = self.get_queryset()
+        if request.user.is_admin or request.user.is_people:
+            serializer = self.serializer_class(queryset, many=True)
+        else:
+            serializer = self.serializer_class(queryset, many=True).fitler(user=request.user)
         return Response(serializer.data)
 
     def perform_create(self, serializer):

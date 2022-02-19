@@ -34,8 +34,16 @@ function Map() {
     const adForm = useSelector(state=>state.advertising.adForm);
 
     useEffect(() => {
-        console.log('center')
-    }, [center])
+        console.log('center');
+        const token = localStorage.getItem('userToken');
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + '127.0.0.1:8000'
+        + '/ws/online-users/'
+        + `?token=${token}`
+    );
+    }, [])
 
     const placesList = useSelector(state => state.place.places);
     const advertisingList = useSelector(state => state.advertising.advertising);
@@ -50,6 +58,7 @@ function Map() {
     const onUnmountMap = (mapInstanse) => {
         console.log(mapInstanse);
     }
+    
 
     return isLoaded ? (
         <>

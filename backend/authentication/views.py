@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework.generics import CreateAPIView
 from rest_framework import permissions
 from rest_framework.views import APIView
-from .serializers import UserCreateSerializer
+from .serializers import UserCreateSerializer, UserSerializer
 from rest_framework.response import Response
 
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -34,4 +34,4 @@ class UserIdentification(APIView):
     def get(self,request):
         user = request.user
 
-        return Response(UserCreateSerializer(user).data)
+        return Response(UserSerializer(user).data)

@@ -53,8 +53,6 @@ const drawerItems = [{
 const drawerWidth = 350;
 
 function MainLayout({ children }) {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const user = useSelector(state => state.auth.user);
 
@@ -76,8 +74,8 @@ function MainLayout({ children }) {
     }
 
 
-    const createMarkerStatus = useSelector(state=>state.advertising.createMarkerStatus);
-    
+    const createMarkerStatus = useSelector(state => state.advertising.createMarkerStatus);
+
     const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         ({ theme, open }) => ({
             width: '100%',
@@ -126,72 +124,95 @@ function MainLayout({ children }) {
 
     const theme = useTheme();
 
+
     const createAdOpen = () => {
         console.log('createAdOpen')
         dispatch(setCreateMarkerStatus(true));
     }
 
+  
+
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                <Toolbar >
+                    {user != null ? (
+                        user?.user_type.id != 1 ?(<IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                        >
+                            <MenuIcon />
+                        </IconButton>) : ''
+                        
+                    ) : ''}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            width: '100%'
+                        }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        <Link underline='none' to="/">
-                            Главная
-                        </Link>
-                    </Typography>
-                    <Typography marginLeft={2} variant="h6" noWrap component="div">
-                        <Link underline='none' to="/map">
-                            Карта
-                        </Link>
-                    </Typography>
-
+                        <Box sx={{ display: 'flex' }}>
+                            <Typography variant="h6" noWrap component="div">
+                                <Link underline='none' to="/">
+                                    Главная
+                                </Link>
+                            </Typography>
+                            <Typography marginLeft={2} variant="h6" noWrap component="div">
+                                <Link underline='none' to="/map">
+                                    Карта
+                                </Link>
+                            </Typography>
+                        </Box>
+                        {user == null ? <Typography marginLeft={2} variant="h6" noWrap component="div">
+                                <Link underline='none' to="/login">
+                                    Войти
+                                </Link>
+                            </Typography> : ''}  
+                    </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
+            {user != null ?
+                (<Drawer
+                    sx={{
                         width: drawerWidth,
-                        boxSizing: 'border-box',
-                    },
-                }}
-                variant="persistent"
-                anchor="left"
-                open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Toolbar />
-                <Divider />
-                <List>
-                    <ListItem button onClick={createAdOpen}>
-                        <ListItemIcon>
-                            <AddCircleIcon></AddCircleIcon>
-                        </ListItemIcon>
-                        <ListItemText primary='Создать рекламу' />
-                    </ListItem>
-                </List>
-                <Divider />
-                {createMarkerStatus && (
-                    <CreateAd></CreateAd>
-                )}
-            </Drawer>
+                        flexShrink: 0,
+                        '& .MuiDrawer-paper': {
+                            width: drawerWidth,
+                            boxSizing: 'border-box',
+                        },
+                    }}
+                    variant="persistent"
+                    anchor="left"
+                    open={open}
+                >
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Toolbar />
+                    <Divider />
+                    <List>
+                        <ListItem button onClick={createAdOpen}>
+                            <ListItemIcon>
+                                <AddCircleIcon></AddCircleIcon>
+                            </ListItemIcon>
+                            <ListItemText primary='Создать рекламу' />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    {createMarkerStatus && (
+                        <CreateAd></CreateAd>
+                    )}
+                </Drawer>) : ''
+            }
+
             <Main open={open}>
-                <DrawerHeader />
+                {user != null ? <DrawerHeader /> : ''}
                 {children}
             </Main>
 

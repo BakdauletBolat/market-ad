@@ -48,7 +48,7 @@ export default function Login() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const body = {
-            username: data.get('username'),
+            email: data.get('email'),
             password: data.get('password'),
         };
 
@@ -61,7 +61,7 @@ export default function Login() {
                 if (err.response.data.detail == 'No active account found with the given credentials') {
                     alert.show('Вы неправильно ввели данные')
                 }
-                if (err.response.data.username) {
+                if (err.response.data.email) {
                     alert.show('Введите имя пользователя')
                 }
                 if (err.response.data.password) {
@@ -87,17 +87,17 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Авторизация {user?.username}
+                        Авторизация {user?.email}
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="username"
-                            label="Имя пользователя"
-                            name="username"
-                            autoComplete="username"
+                            id="email"
+                            label="Почта"
+                            name="email"
+                            autoComplete="email"
                             autoFocus
                         />
                         <TextField

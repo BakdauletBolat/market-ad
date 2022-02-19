@@ -1,36 +1,42 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.contrib.auth import get_user_model
+from .models import UserType
+
+User = get_user_model()
+
+class UserTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserType
+        fields = ('__all__')
 
 class UserSerializer(serializers.ModelSerializer):
 
+    user_type = UserTypeSerializer(read_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'email','user_type')
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
-    last_name = serializers.CharField()
-    first_name = serializers.CharField()
+
     email = serializers.EmailField()
+    user_type = UserTypeSerializer(read_only=True)
 
     def create(self, validated_data):
 
         user = User.objects.create_user(
-            username=validated_data['username'],
+            email=validated_data['email'],
             password=validated_data['password']
         )
-
-        user.first_name = validated_data['first_name']
-        user.last_name = validated_data['last_name']
-        user.email = validated_data['email']
 
         return user
 
     class Meta:
         model = User
-        fields = ("id", "username", "email",
-                  "first_name", "last_name", "password", )
+        fields = ("id", "email",'username','user_type', "password", )

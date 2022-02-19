@@ -2,23 +2,40 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { setAdForm } from '../../slicers/advertising';
-import { useSelector,useDispatch } from 'react-redux';
+import { setAdForm, setAdvertising } from '../../slicers/advertising';
+import { useSelector, useDispatch } from 'react-redux';
 import ImagePicker from './ImagePicker';
 import { Button } from '@mui/material';
 import AdvertisingService from '../../services/advertising';
+import Snackbar from '@mui/material/Snackbar';
 
 function CreateAd() {
 
     const advertisingService = new AdvertisingService();
 
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const [messageInfo, setMessageInfo] = React.useState('');
+
+    const handleSnackbarOpen = () => {
+        setOpenSnackbar(true);
+    };
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
+
     const dispatch = useDispatch();
 
-    const adForm = useSelector(state=>state.advertising.adForm)
+    const adForm = useSelector(state => state.advertising.adForm);
+    const adList = useSelector(state => state.advertising.advertising)
 
     const onChange = (e) => {
         const target = e.target;
-        
+
         dispatch(setAdForm({
             ...adForm,
             [target.name]: target.value
@@ -42,31 +59,58 @@ function CreateAd() {
 
 
     const onSubmit = () => {
-        console.log(adForm);
-
         const formData = new FormData();
 
         Object.keys(adForm).forEach(key => {
 
             if (key == 'images') {
-                adForm[key].map(image=>{
-                    formData.append(key,dataURLtoFile(image.content,image.name))
+                adForm[key].map(image => {
+                    formData.append(key, dataURLtoFile(image.content, image.name))
                 })
             }
-            else{
+            else {
                 formData.append(key, adForm[key])
             }
-            
+
         })
 
         advertisingService.createAdvertising(formData)
-        .then(res=>console.log(res))
-        .catch(err=>err.response.data)
+            .then(res => {
+                setMessageInfo("Успешно создано 🚀");
+                handleSnackbarOpen();
+                console.log(res);
+
+
+                dispatch(
+                    setAdvertising([
+                        ...adList,
+                        res
+                    ]),
+                );
+                dispatch(setAdForm({
+                    type_id: 1,
+                    size: '',
+                    address: '',
+                    created_at: '2021-05-24T10:30',
+                    name: '',
+                    lat: null,
+                    lng: null,
+                    zoom: 7,
+                    desription: ''
+                }));
+
+            })
+            .catch(err => {
+                setMessageInfo('Ой ой что то не так, заполните все данные');
+                handleSnackbarOpen();
+                console.log(err.response.data);
+            }
+            );
     }
 
     const [value, setValue] = React.useState(new Date());
 
-    const {name,desription,created_at} = adForm;
+    const { name, desription, created_at, size, address } = adForm;
     return (
         <React.Fragment>
             <Typography paddingLeft={2} paddingTop={2} variant="h6" gutterBottom>
@@ -81,6 +125,32 @@ function CreateAd() {
                         value={name}
                         name="name"
                         label="Имя рекламного место"
+                        fullWidth
+                        autoComplete="asdasdas"
+                        variant="standard"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        onChange={onChange}
+                        required
+                        id="adress"
+                        value={address}
+                        name="address"
+                        label="Адрес рекламного место"
+                        fullWidth
+                        autoComplete="asdasdas"
+                        variant="standard"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        onChange={onChange}
+                        required
+                        id="size"
+                        value={size}
+                        name="size"
+                        label="Размеры рекламного место"
                         fullWidth
                         autoComplete="asdasdas"
                         variant="standard"
@@ -122,7 +192,13 @@ function CreateAd() {
                         Сохранить
                     </Button>
                 </Grid>
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={6000}
+                    onClose={handleSnackbarClose}
+                    message={messageInfo}
 
+                />
             </Grid>
         </React.Fragment>
     );

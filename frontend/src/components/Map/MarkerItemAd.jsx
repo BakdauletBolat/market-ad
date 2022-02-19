@@ -7,7 +7,7 @@ export const clearAllSelectionsAd = (dispatch, list) => {
     dispatch(setAdvertising(list.map(item => ({
         ...item,
         zoom: 7
-    }))))
+    }))));
 }
 
 function MarkerItemAd({ item }) {
@@ -18,7 +18,7 @@ function MarkerItemAd({ item }) {
 
     useEffect(() => {
         setScale(item.zoom)
-    }, [item])
+    }, [item]);
 
 
 
@@ -35,8 +35,34 @@ function MarkerItemAd({ item }) {
     }
 
     const onOnmount = () => {
-        console.log('jj')
+        console.log('jj');
     }
+
+    let color = '';
+
+    if (item.rent != null) {
+        let now = new Date();
+        let l = item.rent.length;
+        let end_time = new Date(item.rent[l-1].end_time);
+
+        var difference= Math.abs(end_time-now);
+
+        difference = difference/(1000 * 3600 * 24);
+        let day = parseInt(difference);
+        console.log(day);
+
+        if (day < 15) {
+            color = '#ffd600'
+        }
+        else{
+            color = '#ff3d00';
+        }
+   
+    }
+    else {
+        color = '#64dd17'
+    }
+    
 
     return (
         <Marker key={item.id}
@@ -48,9 +74,9 @@ function MarkerItemAd({ item }) {
             }}
             icon={{
                 path: window.google.maps.SymbolPath.CIRCLE,
-                fillColor: item.type.color,
+                fillColor: color,
                 fillOpacity: 1,
-                strokeColor: item.type.color,
+                strokeColor: color,
                 scale: scale,
             }}
             onClick={onClickMarker}

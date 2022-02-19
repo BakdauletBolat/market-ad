@@ -22,7 +22,10 @@ function MainNavigation() {
 
     useEffect(() => {
         authService.getUser()
-            .then(res => dispatch(setUser(res)))
+            .then(res =>{
+                dispatch(setUser(res));
+                console.log(res);
+            } )
             .catch(err => console.log('Аккаунт нету'))
     }, [])
     return (

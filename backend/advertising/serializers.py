@@ -1,7 +1,11 @@
+from datetime import datetime
+from typing import List
 from django.db import models
 from rest_framework import fields, serializers
 from advertising.models import Advertising, AdvertisingImages, AdvertisingType,AdvertisingRent
 from authentication.serializers import UserSerializer
+from collections.abc import Callable
+from django.utils import timezone
 
 
 class AdvertisingTypeSerializer(serializers.ModelSerializer):
@@ -35,7 +39,32 @@ class AdvertisingSerializer(serializers.ModelSerializer):
     type_id = serializers.IntegerField()
     user = UserSerializer(required=False)
 
-    rent = AdvertisingRentSerializer(many=True, required=False)
+    rent = serializers.SerializerMethodField()
+    def get_rent(self,obj):
+        rents = obj.rents.all()
+        length_rent = len(rents)
+        now = timezone.now()
+        isExpired = False
+        for rent in rents:
+            if now > rent.end_time:
+                isExpired = True
+            else:
+                isExpired = False
+
+        if isExpired:
+            return None
+
+        if length_rent > 0:
+            newList = []
+            for rent in rents:
+                if now < rent.end_time:
+                    newList.append(rent)
+            return AdvertisingRentSerializer(newList,many=True).data
+
+        
+
+        return None
+
     images = AdvertisingImagesSerializer(many=True,required=False)
 
     def create(self, validated_data):
