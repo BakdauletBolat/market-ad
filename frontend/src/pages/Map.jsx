@@ -39,7 +39,7 @@ function Map() {
 
     const chatSocket = new WebSocket(
         'ws://'
-        + '127.0.0.1:8000'
+        + '89.223.67.169'
         + '/ws/online-users/'
         + `?token=${token}`
     );
