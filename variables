@@ -8,3 +8,13 @@ ALTER ROLE bbb SET timezone TO 'UTC';
 
 GRANT ALL PRIVILEGES ON DATABASE marketad2 TO bbb;
 
+[Unit]
+Description=myproject Daphne Service
+After=network.target
+[Service]
+Type=simple 
+User=root   
+WorkingDirectory=/var/www/market-ad/backend
+ExecStart=/var/www/market-ad/env/bin/daphne -p 9001 backend.asgi:application
+[Install]
+WantedBy=multi-user.target
