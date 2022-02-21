@@ -66,22 +66,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 ASGI_APPLICATION = "backend.asgi.application"
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'marketad2',
-        'USER': 'bbb',
-        'PASSWORD': 'baguvix123F',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'marketad2',
+#         'USER': 'bbb',
+#         'PASSWORD': 'baguvix123F',
+#         'HOST': 'localhost',
+#         'PORT': '',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 CHANNEL_LAYERS = {
     "default": {

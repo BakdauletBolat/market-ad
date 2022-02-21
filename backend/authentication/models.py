@@ -90,6 +90,10 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+class OnlineUsers(models.Model):
+    type = models.SlugField(unique=True)
+    users = models.ManyToManyField(User,blank=True)
+
 class UserActivites(models.Model):
     Online = 'Online'
     Offline = 'Offline'
