@@ -131,6 +131,7 @@ function MainLayout({ children }) {
     }
 
   
+  
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -171,7 +172,9 @@ function MainLayout({ children }) {
                                 <Link underline='none' to="/login">
                                     Войти
                                 </Link>
-                            </Typography> : ''}  
+                            </Typography> : <Typography onClick={logoutUser} marginLeft={2} variant="h6" noWrap component="div">
+                            Выйти
+                            </Typography>}  
                     </Box>
                 </Toolbar>
             </AppBar>
