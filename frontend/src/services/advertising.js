@@ -2,9 +2,10 @@ import axios from 'axios';
 
 class Advertising {
 
-    url = 'http://89.223.67.169';
+    url = `http://${window.location.hostname}`;
 
     async getAdvertisingList() {
+        
 
         const token = localStorage.getItem('userToken');
         const config = {

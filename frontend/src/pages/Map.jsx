@@ -39,11 +39,11 @@ function Map() {
 
     const chatSocket = new WebSocket(
         'ws://'
-        + '89.223.67.169:9001'
+        + '0.0.0.0:8000'
         + '/ws/online-users/'
         + `?token=${token}`
     );
-    }, [])
+    }, []);
 
     const placesList = useSelector(state => state.place.places);
     const advertisingList = useSelector(state => state.advertising.advertising);

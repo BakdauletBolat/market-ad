@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class User {
 
-    url = 'http://89.223.67.169';
+    url = `http://${window.location.hostname}`;
 
     async login(body) {
        return await axios.post(`${this.url}/api/auth/token/`,body)
@@ -15,6 +15,7 @@ class User {
     }
 
     async getUser() {
+   
         const token = localStorage.getItem('userToken');
         const config = {
             headers: {

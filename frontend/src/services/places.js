@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class Place {
 
-    url = 'http://89.223.67.169';
+    url = `http://${window.location.hostname}`;
 
     async getPlaceList() {
 
