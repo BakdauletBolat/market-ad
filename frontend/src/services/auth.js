@@ -1,9 +1,9 @@
 import axios from 'axios';
+import {PROD} from './conf.js';
 
 class User {
 
-    url = `http://${window.location.hostname}:8000`;
-    // url = `http://${window.location.hostname}`;
+    url = PROD ? `http://${window.location.hostname}` : `http://${window.location.hostname}:8000`;
 
     async login(body) {
        return await axios.post(`${this.url}/api/auth/token/`,body)

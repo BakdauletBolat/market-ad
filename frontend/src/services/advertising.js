@@ -1,9 +1,12 @@
 import axios from 'axios';
 
+import {PROD} from './conf.js';
+
 class Advertising {
 
-    url = `http://${window.location.hostname}:8000`;
-    // url = `http://${window.location.hostname}`;
+    
+
+    url = PROD ? `http://${window.location.hostname}` : `http://${window.location.hostname}:8000`;
 
     async getAdvertisingList() {
         
