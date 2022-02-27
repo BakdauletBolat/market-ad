@@ -12,6 +12,8 @@ from .permisions import AuthorPermission, IsSuperUser
 
 class ArchiveAdvertising(APIView):
 
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self,request,pk):
         ad = get_object_or_404(Advertising,id=pk)
         ad.is_archived = True
