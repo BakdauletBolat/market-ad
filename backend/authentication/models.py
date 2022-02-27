@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 class UserType(models.Model):
@@ -6,6 +7,11 @@ class UserType(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+
+        verbose_name = 'Тип'
+        verbose_name_plural = 'Типы'
 
 
 from django.db import models
@@ -90,9 +96,17 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
 class OnlineUsers(models.Model):
     type = models.SlugField(unique=True)
     users = models.ManyToManyField(User,blank=True)
+
+    class Meta:
+        verbose_name = 'Онлайн пользователи'
+        verbose_name_plural = 'Онлайн пользователи'
 
 class UserActivites(models.Model):
     Online = 'Online'
@@ -109,3 +123,7 @@ class UserActivites(models.Model):
     )
 
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='activites')
+
+    class Meta:
+        verbose_name = 'Активность'
+        verbose_name_plural = 'Активности'

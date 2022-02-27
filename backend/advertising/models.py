@@ -5,11 +5,11 @@ from django import forms
 
 class AdvertisingType(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField('Имя',max_length=255)
     created_at = models.DateTimeField(auto_created=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    color = models.CharField(null=True,blank=True,default='#0077c2',max_length=10)
-    icon_text = models.CharField(null=True, blank=True,default='apartment',max_length=255)
+    color = models.CharField('Цвет',null=True,blank=True,default='#0077c2',max_length=10)
+    icon_text = models.CharField('Иконка Material Icons',null=True, blank=True,default='apartment',max_length=255)
 
     def __str__(self):
         return self.name
@@ -28,22 +28,22 @@ class NearPlace(models.Model):
 
 class Advertising(models.Model):
 
-    name = models.CharField(max_length=255,null=True,blank=True)
-    address = models.TextField(NearPlace,blank=True)
-    flows = models.TextField(null=True,blank=True)
-    desription = models.TextField(null=True,blank=True)
+    name = models.CharField('Имя рекламного места',max_length=255,null=True,blank=True)
+    address = models.TextField('Адрес',blank=True)
+    flows = models.TextField('Дорожные потоки',null=True,blank=True)
+    desription = models.TextField('Описание',null=True,blank=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    size = models.CharField(max_length=255,blank=True,null=True)
+    size = models.CharField('Размеры',max_length=255,blank=True,null=True)
 
-    type = models.ForeignKey(AdvertisingType,related_name='advertising',on_delete=models.CASCADE)
-    lat = models.FloatField()
-    lng = models.FloatField()
-    zoom = models.FloatField()
+    type = models.ForeignKey(AdvertisingType,verbose_name='Тип',related_name='advertising',on_delete=models.CASCADE)
+    lat = models.FloatField('Lat местоположение')
+    lng = models.FloatField('Lng местоположение')
+    zoom = models.FloatField('Зум')
 
-    is_archived = models.BooleanField(default=False)
+    is_archived = models.BooleanField('В архиве',default=False)
 
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,verbose_name='Автор',on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -56,11 +56,12 @@ class Advertising(models.Model):
 
 class AdvertisingRent(models.Model):
 
-    organization_name = models.CharField(max_length=255)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    organization_name = models.CharField('Имя организация',max_length=255)
+    organization_phone = models.CharField('Телефон организаций',max_length=255)
+    start_time = models.DateTimeField(verbose_name='Дата начало')
+    end_time = models.DateTimeField(verbose_name='Дата оканчание')
     expired = models.BooleanField(default=False)
-    advertising = models.ForeignKey(Advertising, on_delete=models.CASCADE, null=True,blank=True,related_name="rents")
+    advertising = models.ForeignKey(Advertising, on_delete=models.CASCADE, null=True,blank=True,related_name="rents",verbose_name='Рекламное место')
 
     def clean(self):
         advertising = self.advertising
@@ -75,6 +76,12 @@ class AdvertisingRent(models.Model):
     
     def __str__(self):
         return f"{self.advertising.name} - {self.organization_name}: {self.end_time-self.start_time}"
+    
+
+    class Meta:
+
+        verbose_name = 'Аренда'
+        verbose_name_plural = 'Аренды'
 
 
 class AdvertisingImages(models.Model):
@@ -89,14 +96,3 @@ class AdvertisingImages(models.Model):
     
         verbose_name = 'Фото Реклама'
         verbose_name_plural = 'Фотки Реклама'
-
-
-# cleaned_data = super().clean()
-
-#         startdate = cleaned_data.get("startdate")
-#         expiredate = cleaned_data.get("expiredate")
-
-#         if startdate and expiredate and expiredate < startdate:
-#             raise forms.ValidationError(
-#                     "Expiredate should be greater than startdate."
-#                 )
