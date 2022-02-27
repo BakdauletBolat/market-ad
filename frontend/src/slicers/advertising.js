@@ -17,7 +17,8 @@ export const advertisingSlice = createSlice({
             lat: undefined,
             lng: undefined,
             zoom: 7,
-            desription: ''
+            desription: '',
+            images: []
         }
     },
     reducers: {

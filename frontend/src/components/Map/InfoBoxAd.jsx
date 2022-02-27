@@ -37,7 +37,7 @@ function InfoBoxBodyAd() {
 
     const activeMarker = useSelector(state => state.advertising.activeMarker);
     const user = useSelector(state => state.auth.user);
-    const baseUrl = `http://${window.location.hostname}:8000`;
+    const baseUrl = `http://${window.location.hostname}`;
 
     let color = '';
 

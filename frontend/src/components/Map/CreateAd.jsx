@@ -85,6 +85,13 @@ function CreateAd() {
             return;
         }
 
+        if (adForm?.images.length <= 0 || adForm?.size == undefined) {
+            console.log('size null');
+            setMessageInfo("Выберите хотябы одну картинку");
+            handleSnackbarOpen();
+            return;
+        }
+
 
         if (adForm?.lat == '' || adForm?.lat == undefined) {
             setMessageInfo("Выберите нужное место");
