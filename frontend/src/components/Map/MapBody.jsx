@@ -5,7 +5,7 @@ import { setAdvertising, setInfoBoxWindowStatus } from '../../slicers/advertisin
 import { setPlaces, setInfoBoxWindowStatusPlace } from '../../slicers/places';
 import MarkerItemAd from './MarkerItemAd';
 import MarkerItemPlace from './MarkerItemPlace';
-import { InfoWindow } from '@react-google-maps/api';
+import { InfoWindow,InfoBox } from '@react-google-maps/api';
 import PlaceService from '../../services/places';
 import InfoBoxBodyPlace from './InfoBoxBodyPlace';
 import InfoBoxBodyAd from './InfoBoxAd';
@@ -49,7 +49,12 @@ function MapBody() {
             />
             ))}
             {infoBoxWindowStatusAd ? (
-                <InfoWindow
+                <InfoBox
+                    options={{
+                        pixelOffset: new window.google.maps.Size(-135,activeMarkerAd.rent != null ? -500 : -360)
+                    }}
+           
+                    
                     onCloseClick={() => dispatch(setInfoBoxWindowStatus(false))}
                     position={{
                         lat: activeMarkerAd.lat,
@@ -57,7 +62,7 @@ function MapBody() {
                     }}
                 >
                     <InfoBoxBodyAd></InfoBoxBodyAd>
-                </InfoWindow>
+                </InfoBox>
             ) : (
                 <div></div>
             )}

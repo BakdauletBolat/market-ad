@@ -19,7 +19,7 @@ class UserCreationForm(forms.ModelForm):
 
 class UserAdmin(admin.ModelAdmin):
     form = UserCreationForm
-    list_display = ('email','get_activitess')
+    list_display = ('email','get_activitess','user_type','is_admin','is_people')
 
     def get_activitess(self,obj):
         length = len(obj.activites.all())

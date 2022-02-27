@@ -2,7 +2,8 @@ import axios from 'axios';
 
 class Place {
 
-    url = `http://${window.location.hostname}`;
+    url = `http://${window.location.hostname}:8000`;
+    // url = `http://${window.location.hostname}`;
 
     async getPlaceList() {
 

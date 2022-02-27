@@ -41,6 +41,8 @@ class Advertising(models.Model):
     lng = models.FloatField()
     zoom = models.FloatField()
 
+    is_archived = models.BooleanField(default=False)
+
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):

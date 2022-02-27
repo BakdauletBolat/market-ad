@@ -2,7 +2,8 @@ import axios from 'axios';
 
 class Advertising {
 
-    url = `http://${window.location.hostname}`;
+    url = `http://${window.location.hostname}:8000`;
+    // url = `http://${window.location.hostname}`;
 
     async getAdvertisingList() {
         
@@ -15,6 +16,17 @@ class Advertising {
         }
 
        return await axios.get(`${this.url}/api/advertising/list/`,config)
+       .then(response=>response.data)
+    }
+
+    async deleteAdvertising(id) {
+        const token = localStorage.getItem('userToken');
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}` 
+              }
+        }
+       return await axios.get(`${this.url}/api/advertising/delete/${id}/`,config)
        .then(response=>response.data)
     }
 

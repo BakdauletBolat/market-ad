@@ -30,7 +30,13 @@ function MarkerItemAd({ item }) {
 
         setTimeout(() => {
             setScale(10);
-        }, 1)
+        }, 1);
+
+        // const el = document.querySelectorAll('.infoBox');
+
+        // el.forEach(element => {
+        //     element.style.transform = 'translate3d(-50%, -100%, 0px)!important';
+        // });
 
     }
 

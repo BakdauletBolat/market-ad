@@ -2,7 +2,8 @@ import axios from 'axios';
 
 class User {
 
-    url = `http://${window.location.hostname}`;
+    url = `http://${window.location.hostname}:8000`;
+    // url = `http://${window.location.hostname}`;
 
     async login(body) {
        return await axios.post(`${this.url}/api/auth/token/`,body)

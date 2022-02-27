@@ -19,10 +19,16 @@ class MyAdvertisingRentAdminForm(forms.ModelForm):
         return super().clean()
         
 class AdvertisingRentAdmin(admin.ModelAdmin):
-
     form = MyAdvertisingRentAdminForm
 
-admin.site.register(Advertising)
+
+class AdvertisingAdmin(admin.ModelAdmin):
+
+    list_display = ('id','name','is_archived','user')
+    list_editable = ('is_archived',)
+
+
+admin.site.register(Advertising,AdvertisingAdmin)
 admin.site.register(AdvertisingType)
 admin.site.register(AdvertisingImages)
 admin.site.register(AdvertisingRent,AdvertisingRentAdmin)
