@@ -2,7 +2,7 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { setAdForm, setAdvertising } from '../../slicers/advertising';
+import { setAdForm, setAdvertising,setCreateMarkerStatus } from '../../slicers/advertising';
 import { useSelector, useDispatch } from 'react-redux';
 import ImagePicker from './ImagePicker';
 import { Button } from '@mui/material';
@@ -58,9 +58,41 @@ function CreateAd() {
     }
 
 
+
+
     const onSubmit = () => {
         const formData = new FormData();
+        console.log(adForm);
 
+        if (adForm?.name == '' || adForm?.name == undefined) {
+            console.log('name null');
+            setMessageInfo("Имя рекламного место обязательны");
+            handleSnackbarOpen();
+            return;
+        }
+
+        if (adForm?.address == '' || adForm?.address == undefined) {
+            console.log('adress null');
+            setMessageInfo("Адрес рекламного место обязательны");
+            handleSnackbarOpen();
+            return;
+        }
+
+        if (adForm?.size == '' || adForm?.size == undefined) {
+            console.log('size null');
+            setMessageInfo("Размеры рекламного место обязательны");
+            handleSnackbarOpen();
+            return;
+        }
+
+
+        if (adForm?.lat == '' || adForm?.lat == undefined) {
+            setMessageInfo("Выберите нужное место");
+            handleSnackbarOpen();
+            return;
+        }
+
+    
         Object.keys(adForm).forEach(key => {
 
             if (key == 'images') {
@@ -75,12 +107,9 @@ function CreateAd() {
         })
 
         advertisingService.createAdvertising(formData)
-            .then(res => {
+            .then( async (res)=>  {
                 setMessageInfo("Успешно создано 🚀");
                 handleSnackbarOpen();
-                console.log(res);
-
-
                 dispatch(
                     setAdvertising([
                         ...adList,
@@ -99,6 +128,11 @@ function CreateAd() {
                     desription: ''
                 }));
 
+                // await new Promise(resolve => setTimeout(resolve, 1500));
+                
+
+                // dispatch(setCreateMarkerStatus(false));
+    
             })
             .catch(err => {
                 setMessageInfo('Ой ой что то не так, заполните все данные');
@@ -158,7 +192,7 @@ function CreateAd() {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        required
+             
                         multiline={true}
                         id="desription"
                         name="desription"

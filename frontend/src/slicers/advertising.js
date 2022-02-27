@@ -10,12 +10,12 @@ export const advertisingSlice = createSlice({
         createMarkerStatus:false,
         adForm: {
             type_id: 1,
-            size: null,
-            address: null,
+            size: '',
+            address: '',
             created_at: '2021-05-24T10:30',
-            name: null,
-            lat: null,
-            lng: null,
+            name: '',
+            lat: undefined,
+            lng: undefined,
             zoom: 7,
             desription: ''
         }
