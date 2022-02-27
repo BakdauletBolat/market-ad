@@ -11,7 +11,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-from conf import PROD
+from .conf import PROD
 
 
 # Application definition
