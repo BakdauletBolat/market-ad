@@ -12,7 +12,7 @@ class AdvertisingType(models.Model):
     icon_text = models.CharField('Иконка Material Icons',null=True, blank=True,default='apartment',max_length=255)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}: {self.id}"
 
     class Meta:
 
