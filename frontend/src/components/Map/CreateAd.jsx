@@ -2,12 +2,13 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { setAdForm, setAdvertising,setCreateMarkerStatus } from '../../slicers/advertising';
+import { setAdForm, setAdvertising, setCreateMarkerStatus } from '../../slicers/advertising';
 import { useSelector, useDispatch } from 'react-redux';
 import ImagePicker from './ImagePicker';
 import AdvertisingService from '../../services/advertising';
 import Snackbar from '@mui/material/Snackbar';
 import { useFilePicker } from 'use-file-picker';
+import { MenuItem,InputLabel,Select } from '@mui/material';
 
 function CreateAd() {
 
@@ -33,7 +34,7 @@ function CreateAd() {
     const adForm = useSelector(state => state.advertising.adForm);
     const adList = useSelector(state => state.advertising.advertising);
 
-    const [isLoading,setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const onChange = (e) => {
         const target = e.target;
@@ -107,7 +108,7 @@ function CreateAd() {
             return;
         }
 
-    
+
         Object.keys(adForm).forEach(key => {
 
             if (key == 'images') {
@@ -122,7 +123,7 @@ function CreateAd() {
         })
 
         advertisingService.createAdvertising(formData)
-            .then( async (res)=>  {
+            .then(async (res) => {
                 setMessageInfo("Успешно создано 🚀");
                 setIsLoading(false);
                 clear();
@@ -147,10 +148,10 @@ function CreateAd() {
                 }));
 
                 // await new Promise(resolve => setTimeout(resolve, 1500));
-                
+
 
                 // dispatch(setCreateMarkerStatus(false));
-    
+
             })
             .catch(err => {
                 setMessageInfo('Ой ой что то не так, заполните все данные');
@@ -170,7 +171,7 @@ function CreateAd() {
         maxFileSize: 50
     });
 
-    const { name, desription, created_at, size, address } = adForm;
+    const { name, desription, created_at, size, address,type_id } = adForm;
     return (
         <React.Fragment>
             <Typography paddingLeft={2} paddingTop={2} variant="h6" gutterBottom>
@@ -217,8 +218,25 @@ function CreateAd() {
                     />
                 </Grid>
                 <Grid item xs={12}>
+                    <InputLabel id="demo-simple-select-label">Тип</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        value={type_id}
+                        name="type_id"
+                        fullWidth
+                        id="type_id"
+                        label="Тип"
+                        onChange={onChange}
+                    >
+                        <MenuItem value={1}>Скроллер</MenuItem>
+                        <MenuItem value={2}>LED</MenuItem>
+                        <MenuItem value={3}>Флэксборд</MenuItem>
+                        <MenuItem value={4}>Билборд</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item xs={12}>
                     <TextField
-             
+
                         multiline={true}
                         id="desription"
                         name="desription"
@@ -245,15 +263,15 @@ function CreateAd() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <ImagePicker openFileSelector={openFileSelector} 
-                                filesContent={filesContent} 
-                                loading={loading} 
-                                errors={errors} 
-                                clear={clear}></ImagePicker>
+                    <ImagePicker openFileSelector={openFileSelector}
+                        filesContent={filesContent}
+                        loading={loading}
+                        errors={errors}
+                        clear={clear}></ImagePicker>
                 </Grid>
                 <Grid marginBottom={9} item xs={12}>
                     <button type='button' disabled={isLoading ? true : false} className={isLoading ? 'button button--full-width button--isloading' : 'button button--full-width'} onClick={onSubmit} >
-                        {isLoading ? 'Загрузка ...' : 'Сохранить'} 
+                        {isLoading ? 'Загрузка ...' : 'Сохранить'}
                     </button>
                 </Grid>
                 <Snackbar
