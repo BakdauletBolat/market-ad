@@ -5,9 +5,9 @@ import TextField from '@mui/material/TextField';
 import { setAdForm, setAdvertising,setCreateMarkerStatus } from '../../slicers/advertising';
 import { useSelector, useDispatch } from 'react-redux';
 import ImagePicker from './ImagePicker';
-import { Button } from '@mui/material';
 import AdvertisingService from '../../services/advertising';
 import Snackbar from '@mui/material/Snackbar';
+import { useFilePicker } from 'use-file-picker';
 
 function CreateAd() {
 
@@ -31,7 +31,9 @@ function CreateAd() {
     const dispatch = useDispatch();
 
     const adForm = useSelector(state => state.advertising.adForm);
-    const adList = useSelector(state => state.advertising.advertising)
+    const adList = useSelector(state => state.advertising.advertising);
+
+    const [isLoading,setIsLoading] = React.useState(false);
 
     const onChange = (e) => {
         const target = e.target;
@@ -61,6 +63,7 @@ function CreateAd() {
 
 
     const onSubmit = () => {
+        setIsLoading(true);
         const formData = new FormData();
         console.log(adForm);
 
@@ -68,6 +71,7 @@ function CreateAd() {
             console.log('name null');
             setMessageInfo("Имя рекламного место обязательны");
             handleSnackbarOpen();
+            setIsLoading(false);
             return;
         }
 
@@ -75,6 +79,7 @@ function CreateAd() {
             console.log('adress null');
             setMessageInfo("Адрес рекламного место обязательны");
             handleSnackbarOpen();
+            setIsLoading(false);
             return;
         }
 
@@ -82,6 +87,7 @@ function CreateAd() {
             console.log('size null');
             setMessageInfo("Размеры рекламного место обязательны");
             handleSnackbarOpen();
+            setIsLoading(false);
             return;
         }
 
@@ -89,6 +95,7 @@ function CreateAd() {
             console.log('size null');
             setMessageInfo("Выберите хотябы одну картинку");
             handleSnackbarOpen();
+            setIsLoading(false);
             return;
         }
 
@@ -96,6 +103,7 @@ function CreateAd() {
         if (adForm?.lat == '' || adForm?.lat == undefined) {
             setMessageInfo("Выберите нужное место");
             handleSnackbarOpen();
+            setIsLoading(false);
             return;
         }
 
@@ -116,6 +124,8 @@ function CreateAd() {
         advertisingService.createAdvertising(formData)
             .then( async (res)=>  {
                 setMessageInfo("Успешно создано 🚀");
+                setIsLoading(false);
+                clear();
                 handleSnackbarOpen();
                 dispatch(
                     setAdvertising([
@@ -132,7 +142,8 @@ function CreateAd() {
                     lat: null,
                     lng: null,
                     zoom: 7,
-                    desription: ''
+                    desription: '',
+                    images: []
                 }));
 
                 // await new Promise(resolve => setTimeout(resolve, 1500));
@@ -145,11 +156,19 @@ function CreateAd() {
                 setMessageInfo('Ой ой что то не так, заполните все данные');
                 handleSnackbarOpen();
                 console.log(err.response.data);
+                setIsLoading(false);
             }
             );
     }
 
     const [value, setValue] = React.useState(new Date());
+
+    const [openFileSelector, { filesContent, loading, errors, clear }] = useFilePicker({
+        accept: 'image/*',
+        readAs: 'DataURL',
+        multiple: true,
+        maxFileSize: 50
+    });
 
     const { name, desription, created_at, size, address } = adForm;
     return (
@@ -226,12 +245,16 @@ function CreateAd() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <ImagePicker></ImagePicker>
+                    <ImagePicker openFileSelector={openFileSelector} 
+                                filesContent={filesContent} 
+                                loading={loading} 
+                                errors={errors} 
+                                clear={clear}></ImagePicker>
                 </Grid>
                 <Grid marginBottom={9} item xs={12}>
-                    <Button onClick={onSubmit} variant='contained' fullWidth>
-                        Сохранить
-                    </Button>
+                    <button type='button' disabled={isLoading ? true : false} className={isLoading ? 'button button--full-width button--isloading' : 'button button--full-width'} onClick={onSubmit} >
+                        {isLoading ? 'Загрузка ...' : 'Сохранить'} 
+                    </button>
                 </Grid>
                 <Snackbar
                     open={openSnackbar}

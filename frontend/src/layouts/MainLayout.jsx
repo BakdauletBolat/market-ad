@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,14 +17,14 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MuiAppBar from '@mui/material/AppBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../slicers/auth';
+import {useLocation} from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
 import Link from '../components/bmui/Link';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { setCreateMarkerStatus } from '../slicers/advertising';
@@ -116,7 +116,8 @@ function MainLayout({ children }) {
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
-        padding: theme.spacing(0, 1),
+
+        // padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
@@ -125,8 +126,18 @@ function MainLayout({ children }) {
     const theme = useTheme();
 
 
+    const location = useLocation();
+
+    useEffect(()=>{
+        console.log(location.pathname);
+        console.log(user);
+    },[user])
+
+   
+
     const createAdOpen = () => {
-        console.log('createAdOpen')
+        console.log('createAdOpen');
+
         dispatch(setCreateMarkerStatus(true));
     }
 
@@ -135,9 +146,16 @@ function MainLayout({ children }) {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed"
+             style={{
+                 boxShadow: '0px 4px 14px rgba(0,0,0,5%)',
+                backgroundColor: 'white',
+                color: 'black',
+                padding: '5px 0px',
+            }} open={open}
+            >
                 <Toolbar >
-                    {user != null ? (
+                    {
                         user?.user_type.id != 1 ?(<IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -147,8 +165,7 @@ function MainLayout({ children }) {
                         >
                             <MenuIcon />
                         </IconButton>) : ''
-                        
-                    ) : ''}
+                  }
                     <Box
                         sx={{
                             display: 'flex',
@@ -156,30 +173,50 @@ function MainLayout({ children }) {
                             width: '100%'
                         }}
                     >
-                        <Box sx={{ display: 'flex' }}>
-                            <Typography variant="h6" noWrap component="div">
+                        <Box sx={{ display: 'flex',alignItems: 'center' }}>
+                            <Typography variant="h6" noWrap component="div"
+                            style={{
+                                color: location.pathname == '/' ? '#005EFF': 'black'
+                            }}
+                            >
                                 <Link underline='none' to="/">
-                                    Главная
+                                    KazBillboard
                                 </Link>
                             </Typography>
-                            <Typography marginLeft={2} variant="h6" noWrap component="div">
+                            <Typography marginLeft={2} style={{
+                                fontWeight: 400,
+                                fontSize: 16,
+                                color: location.pathname == '/map' ? '#005EFF': 'black'
+                            }} noWrap component="div">
                                 <Link underline='none' to="/map">
                                     Карта
                                 </Link>
                             </Typography>
+                            
+                            {/* <Typography marginLeft={2} style={{
+                                fontWeight: 400,
+                                fontSize: 16,
+                                color: location.pathname == '/about' ? '#005EFF': 'black'
+                            }} noWrap component="div">
+                                <Link underline='none' to="/about" >
+                                    О нас
+                                </Link>
+                            </Typography> */}
                         </Box>
                         {user == null ? <Typography marginLeft={2} variant="h6" noWrap component="div">
                                 <Link underline='none' to="/login">
                                     Войти
                                 </Link>
-                            </Typography> : <Typography onClick={logoutUser} marginLeft={2} variant="h6" noWrap component="div">
+                            </Typography> : <Typography onClick={logoutUser} style={{
+                                cursor: 'pointer'
+                            }} marginLeft={2} variant="h6" noWrap component="div">
                             Выйти
                             </Typography>}  
                     </Box>
                 </Toolbar>
             </AppBar>
-            {user != null ?
-                (<Drawer
+      
+                <Drawer
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
@@ -199,7 +236,10 @@ function MainLayout({ children }) {
                     </DrawerHeader>
                     <Toolbar />
                     <Divider />
-                    <List>
+
+                    {user?.user_type !== 3 && user !== undefined ? (
+                        <>
+                        <List>
                         <ListItem button onClick={createAdOpen}>
                             <ListItemIcon>
                                 <AddCircleIcon></AddCircleIcon>
@@ -211,11 +251,13 @@ function MainLayout({ children }) {
                     {createMarkerStatus && (
                         <CreateAd></CreateAd>
                     )}
-                </Drawer>) : ''
-            }
+                    </>
+                    ) : ''}  
+                    
+                </Drawer>
 
             <Main open={open}>
-                {user != null ? <DrawerHeader /> : ''}
+                 <DrawerHeader /> 
                 {children}
             </Main>
 

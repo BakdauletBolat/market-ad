@@ -41,7 +41,7 @@ export default function Login() {
     const user = useSelector(state => state.auth.user);
 
     if (user) {
-        return <Navigate to="/"></Navigate>
+        return <Navigate to="/map"></Navigate>
     }
 
     const handleSubmit = (event) => {
@@ -87,7 +87,10 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Авторизация {user?.email}
+                        Авторизация
+                    </Typography>
+                    <Typography component="h1" variant="body1">
+                        Чтобы получить доступ к карте авторизуйтесь 
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -119,11 +122,7 @@ export default function Login() {
                             Войти
                         </Button>
                         <Grid container>
-                            <Grid item xs>
-                                <Link to="/map" component={LinkMaterial}>
-                                    as
-                                </Link>
-                            </Grid>
+                            
                             <Grid item>
                                 <LinkMaterial href="#" variant="body2">
                                     {"У вас нет аккаунта?"}

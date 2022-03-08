@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import {
     Routes,
     Route,
-    BrowserRouter
+    BrowserRouter,
+
 } from "react-router-dom";
 
 import Login from '../pages/Login';
@@ -17,17 +18,19 @@ import OnlineUsers from "../pages/OnlineUsers";
 
 
 
+
 function MainNavigation() {
     const authService = new AuthService();
     const dispatch = useDispatch();
 
     useEffect(() => {
+      
         authService.getUser()
-            .then(res =>{
-                dispatch(setUser(res));
-                console.log(res);
-            } )
-            .catch(err => console.log('Аккаунт нету'))
+        .then(res =>{
+            dispatch(setUser(res));
+            console.log(res);
+        } )
+        .catch(err => console.log('Аккаунт нету'))
     }, [])
     return (
         <BrowserRouter>

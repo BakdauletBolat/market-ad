@@ -8,10 +8,10 @@ import { setInfoBoxWindowStatusPlace } from '../slicers/places';
 import { clearAllSelectionsAd } from '../components/Map/MarkerItemAd';
 import { clearAllSelectionsPlace } from '../components/Map/MarkerItemPlace';
 import CreateAd from '../components/Map/CreateMarker';
-
+import {useNavigate} from 'react-router-dom';
 const containerStyle = {
     width: '100%',
-    height: '100vh'
+    height: 'calc(100vh - 64px)'
 };
 
 function Map() {
@@ -23,6 +23,10 @@ function Map() {
 
     const dispatch = useDispatch();
 
+    const user = useSelector(state => state.auth.user);
+
+
+
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: "AIzaSyBUVRGCl79p01aB2YhioP6s3bURSLV0qDE"
     })
@@ -33,8 +37,15 @@ function Map() {
 
     const adForm = useSelector(state=>state.advertising.adForm);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         console.log('center');
+
+        if (user == null || user == undefined) {
+            navigate('/login');
+        } 
+
         const token = localStorage.getItem('userToken');
 
     const chatSocket = new WebSocket(

@@ -25,7 +25,8 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-spring-bottom-sheet": "^3.4.0",
-    "swiper": "^8.0.6",
+    "sass": "^1.49.9",
+    "swiper": "6.8.4",
     "use-file-picker": "^1.4.1",
     "web-vitals": "^2.1.2"
   },

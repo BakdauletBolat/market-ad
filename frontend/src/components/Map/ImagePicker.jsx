@@ -1,4 +1,4 @@
-import { useFilePicker } from 'use-file-picker';
+
 import React, { useState } from 'react';
 import { Avatar, Button, Stack, Typography } from '@mui/material';
 import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
@@ -6,14 +6,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { setAdForm } from '../../slicers/advertising';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function ImagePicker() {
-    const [openFileSelector, { filesContent, loading, errors, clear }] = useFilePicker({
-        accept: 'image/*',
-        readAs: 'DataURL',
-        multiple: true,
-        maxFileSize: 50
-    });
-
+export default function ImagePicker({openFileSelector,filesContent,loading,errors,clear}) {
     
 
     const adForm = useSelector(state => state.advertising.adForm)
@@ -47,7 +40,7 @@ export default function ImagePicker() {
                     sx={{
                         width: '100%',
                         height: 125,
-                        background: 'grey',
+                        background: '#BABABA',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',

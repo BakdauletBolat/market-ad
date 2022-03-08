@@ -28,9 +28,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import 'swiper/swiper-bundle.min.css';
+import 'swiper/swiper.min.css';
 import Advertising from '../../services/advertising';
 
 function InfoBoxBodyAd() {

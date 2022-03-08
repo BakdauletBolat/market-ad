@@ -35,16 +35,12 @@ function CreateMarker() {
                         top: 20,
                         right: 10,
                         padding: 2,
-                        backgroundColor: 'primary.main',
-                        color: 'white',
+                        
                         display: 'flex',
                         alignItems: 'center',
                         fontSize: 20,
-                        '&:hover': {
-                            backgroundColor: 'primary.main',
-                            opacity: [0.9, 0.8, 0.7],
-                        },
-                    }}>
+                        
+                    }} className='button'>
                         <PushPinIcon color='inherit' fontSize="inherit"></PushPinIcon>
                         <Typography marginLeft={2} color="white" variant="h5">Выберите точку чтобы создать</Typography>
                     </Box>
@@ -54,8 +50,7 @@ function CreateMarker() {
                         top: 20,
                         right: 10,
                         padding: 2,
-                        backgroundColor: 'primary.main',
-                        color: 'white',
+                
                         display: 'flex',
                         alignItems: 'center',
                         fontSize: 20,
@@ -63,7 +58,7 @@ function CreateMarker() {
                             backgroundColor: 'primary.main',
                             opacity: [0.9, 0.8, 0.7],
                         },
-                    }}>
+                    }} className='button'>
                         <PushPinIcon color='inherit' fontSize="inherit"></PushPinIcon>
                         <Typography marginLeft={2} color="white" variant="h5">Выбрано место</Typography>
                     </Box>
