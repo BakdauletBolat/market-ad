@@ -180,7 +180,7 @@ function MainLayout({ children }) {
                             }}
                             >
                                 <Link underline='none' to="/">
-                                    KazBillboard
+                                    Гео портал
                                 </Link>
                             </Typography>
                             <Typography marginLeft={2} style={{

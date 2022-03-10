@@ -37,7 +37,7 @@ function MainNavigation() {
             <Routes>
                 <Route path="/" element={
                     <MainLayout>
-                        <Main />
+                        {/* <Main /> */}
                     </MainLayout>
                 } />
                 <Route path="/map" element={
