@@ -180,7 +180,7 @@ function MainLayout({ children }) {
                             }}
                             >
                                 <Link underline='none' to="/">
-                                    Гео портал
+                                    Карта реклам города
                                 </Link>
                             </Typography>
                             <Typography marginLeft={2} style={{
